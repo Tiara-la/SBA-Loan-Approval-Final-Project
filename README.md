@@ -54,12 +54,12 @@ The original data set is from the U.S.SBA loan database, which includes historic
 
 ## Business Understanding
 
-### 📌 Problem Statement
+### Problem Statement
 
 **SBA** sebagai lembaga penjamin untuk bank bagi para UMKM ingin **menurunkan loan default rate** dari usaha-usaha yang mereka loloskan / jaminkan.
 
-### 📌 Goal
+### Goal
 
 Mengembangkan data driven decision making system yang robust, memanfaatkan data demografis perusahaan untuk menilai kelayakan pinjaman UMKM dengan akurat.
 
-### 📌 Objectuve
+### Objectuve

@@ -49,3 +49,17 @@ The original data set is from the U.S.SBA loan database, which includes historic
 | Load the dataset                       | <a href="https://colab.research.google.com/github/sbooeshaghi/SBA-PPP-Loan-Data/blob/master/notebooks/load_data.ipynb" target="_parent"><img src="https://www.vectorlogo.zone/logos/kaggle/kaggle-ar21.svg" alt="Open In Colab"/></a>                               |
 | Dataset guide by Journal of Statistics | <a href="https://www.kaggle.com/datasets/mirbektoktogaraev/should-this-loan-be-approved-or-denied?select=Should+This+Loan+be+Approved+or+Denied+A+Large+Dataset+with+Class+Assignment+Guidelines.pdf" target="_parent">Dataset with Class Assignment Guidelines</a> |
 | License                                | <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_parent">CC BY-SA 4.0</a>                                                                                                                                                                         |
+
+<br>
+
+## Business Understanding
+
+### 📌 Problem Statement
+
+**SBA** sebagai lembaga penjamin untuk bank bagi para UMKM ingin **menurunkan loan default rate** dari usaha-usaha yang mereka loloskan / jaminkan.
+
+### 📌 Goal
+
+Mengembangkan data driven decision making system yang robust, memanfaatkan data demografis perusahaan untuk menilai kelayakan pinjaman UMKM dengan akurat.
+
+### 📌 Objectuve

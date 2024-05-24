@@ -26,9 +26,9 @@
 </a>
 </p>
 
-The **Small Business Administration (SBA) ** is a United States government agency established to support and promote small businesses and entrepreneurs. Created in 1953 through the Small Business Act, the SBA's mission is to maintain and strengthen the nation’s economy by enabling the establishment and viability of small businesses and by assisting in the economic recovery of communities after disasters.
+The **Small Business Administration (SBA)** is a United States government agency established to support and promote small businesses and entrepreneurs. Created in 1953 through the Small Business Act, the SBA's mission is to maintain and strengthen the nation’s economy by enabling the establishment and viability of small businesses and by assisting in the economic recovery of communities after disasters.
 
-![screen](https://i.ibb.co.com/kqThPqp/sba-banner.webp)
+![screen](https://i.ibb.co.com/nzxDKmR/sba-banner-1.webp)
 
 ## **Members of Heptad Data Collector**
 

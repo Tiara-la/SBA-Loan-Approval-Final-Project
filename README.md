@@ -76,7 +76,7 @@ Mengembangkan data driven decision making system yang robust, memanfaatkan data 
 
 <img src="https://i.ibb.co.com/pXXGy6X/2024-05-16-18-23-14-Stage-0-PT-Heptad-Data-Collector-Kelompok-4-DS-Batch-43-pptx-Google-Slide.png">
 
-##  2. Data Preprocessing
+##  2. Data Preprocessing - 1st Section
 
 ### A. Handling Missing Values
 
@@ -104,23 +104,6 @@ Tidak ditemukan adanya duplikasi data pada dataset ini, sehingga bisa melanjutka
 - Nilai 1976A pada kolom ApprovalFY diganti menjadi 1976
 - NoEmp, CreateJob, RetainedJob dilakukan robust-scaler, untuk mempermudah dalam melakukan analisis statistik
 - Untuk Bank dengan count < 1500 akan dimasukkan ke kategori ‘Others’
-
-### D. Feature Encoding
-
-- Pengkategorian Term, dibuat kolom baru RealEstate dengan nilai >= 240 =1, dibawah 240=0
-- NAICS diubah menjadi nama-nama industri setiap kategori -> dilabelin jadi angka numerik
-- MIS_status dilabelin chargeoff = 1, PIF=0
-- Encoding 60 bank dengan count terbanyak
-
-### E. Handle Outlier
-
-Pada kolom numerikal outliers di-handle dengan cara sebagai berikut:
-- Fitur yang sudah di-robust scaler akan menggunakan metode Z Score
-- Term menggunakan metode IQR
-
-### F. Class Imbalance
-
-Class Imbalance pada MIS_Status di-handle dengan oversampling dengan menggunakan metode SMOTE. Setelah itu dilakukan pengecekan terhadap duplikat dan missing values
 
 ## 3. Feature Engineering
 
@@ -167,104 +150,159 @@ Feature yang ditambah:
 ## 4. Insight and Visualization
 
 ### A. Univariate Analysis - Categorical
-### NewExist, FranchiseCode, UrbanRural, RevLineCr
+<img width="857" alt="Stage 2 - Univ_NE_FC" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/3647248b-f549-476f-bd28-cc57b86f23b1">
 
-![screen](https://gcdnb.pbrd.co/images/OGhNaZk8ACXz.png?o=1)
+##### NewExist
+Jumlah bisnis yang menerima pinjaman dalam dataset didominasi oleh bisnis yang sudah existing (label 1) dibandingkan dengan bisnis baru (label 2). Bisnis existing umumnya memiliki laporan keuangan yang lebih stabil dan menguntungkan, serta menunjukkan kemampuan mereka untuk melunasi pinjaman dibandingkan dengan bisnis baru yang mungkin belum memiliki riwayat kredit (credit score) yang memadai, dan belum memiliki laporan keuangan yang stabil sehingga lebih sulit mendapat pinjaman.
 
-- NewExist: Jumlah bisnis yang menerima pinjaman dalam dataset didominasi oleh bisnis yang sudah existing (label 1) dibandingkan dengan bisnis baru (label 2). Kemungkinan penjelasan untuk hal ini adalah: bisnis yang sudah ada memiliki rekam jejak yang lebih panjang dan stabil, sehingga lebih mudah untuk mendapatkan pinjaman.
+##### FranchiseCode
+Sebagian besar bisnis yang menerima pinjaman adalah bisnis independen atau bukan bagian dari franchise. Bisnis independen cenderung memiliki akses terbatas terhadap modal dibandingkan dengan bisnis franchise. Bisnis independen sering kali tidak memiliki dukungan finansial yang kuat karena dimiliki oleh individual dan jaringan terbatas, sehingga mereka lebih bergantung pada pinjaman eksternal untuk mendanai operasional dan ekspansi bisnis.
 
-- FranchiseCode: Sebagian besar bisnis yang menerima pinjaman adalah bisnis independen atau bukan bagian dari franchise. Ini bisa mencerminkan kenyataan bahwa bisnis independen mungkin lebih membutuhkan dukungan finansial dibandingkan dengan bisnis yang merupakan bagian dari sistem franchise
+<img width="863" alt="Stage 2 - Univ_UR_RLC" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/4cc08569-2c03-4335-bbae-13afaf67b563">
 
-- UrbanRural: Data menunjukkan bahwa sebagian besar pinjaman diberikan kepada bisnis di daerah perkotaan. Ini mungkin disebabkan oleh beberapa faktor: Konsentrasi bisnis yang lebih tinggi di daerah perkotaan, Akses yang lebih mudah ke layanan perbankan dan keuangan di daerah perkotaan, Potensi pasar yang lebih besar di daerah perkotaan. Meskipun jumlahnya lebih sedikit, ada sejumlah signifikan pinjaman yang diberikan di daerah pedesaan. Ini menunjukkan bahwa ada kebutuhan akan dukungan finansial di daerah pedesaan, meskipun aksesnya mungkin lebih terbatas dibandingkan dengan daerah perkotaan.
+##### UrbanRural
+Data menunjukkan bahwa sebagian besar pinjaman diberikan kepada bisnis di daerah perkotaan. Ini mungkin disebabkan oleh beberapa faktor:
+1. Konsentrasi bisnis yang lebih tinggi di daerah perkotaan, .
+2. Akses yang lebih mudah ke layanan perbankan dan keuangan di daerah perkotaan.
+3. Potensi pasar yang lebih besar di daerah perkotaan, karena mobilisasi penduduk yang tinggi dan populasi penduduk yang lebih padat.
+Meskipun jumlahnya lebih sedikit, ada sejumlah signifikan pinjaman yang diberikan di daerah pedesaan. Ini menunjukkan bahwa ada kebutuhan akan dukungan finansial di daerah pedesaan, meskipun aksesnya mungkin lebih terbatas dibandingkan dengan daerah perkotaan.
 
-- RevLineCr: Data menunjukkan bahwa sebagian besar pinjaman diberikan tanpa revolving line of credit. Ini mungkin disebabkan oleh beberapa faktor: Bisnis mungkin lebih memilih pinjaman konvensional dengan struktur pembayaran tetap daripada revolving line of credit yang lebih fleksibel namun mungkin lebih kompleks. Kebijakan pemberian pinjaman dari lembaga keuangan yang mungkin lebih ketat untuk revolving line of credit. <br>
+##### RevLineCr
+Data menunjukkan bahwa sebagian besar pinjaman diberikan tanpa revolving line of credit, karena banyak bisnis yang lebih memilih pinjaman yang memiliki jadwal pembayaran dengan nominal yang jelas/ tetap dan bunga yang pasti. Pinjaman dengan struktur ini memberikan kepastian bagi bisnis dalam perencanaan keuangan mereka, karena mereka tahu persis berapa yang harus dibayar setiap bulan dan kapan pinjaman tersebut akan lunas. Tidak seperti kartu kredit yang fleksibel dan dapat dibayar sebagian atau seluruh pinjaman sebelum jatuh tempo perbulan.
 
-### RealEstate, BankIsIn, CompanyType, Prod
+<img width="863" alt="Stage 2 - Univ_LD_BII" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/9ff67de2-d3a0-4814-addc-673719fc6e95">
 
-![screen](https://gcdnb.pbrd.co/images/stzZlwuRwtlS.png?o=1)
+##### LowDoc
+Grafik menunjukkan bahwa sebagian besar pinjaman diberikan tanpa menggunakan program LowDoc. Namun, ada juga kebutuhan signifikan akan jenis pinjaman ini, meskipun dalam jumlah yang lebih kecil.
 
-- RealEstate: Setelah kolom Term dilakukan handle outlier dengan metode IQR, nilai Term pada dataset ada di bawah 240. 
+##### BankIsIn
+Jumlah pinjaman, dimana bisnisnya berada pada state yang sama dengan Bank pemberi pinjamanannya terlihat tidak berbeda signifikan.
 
-- BankIsIn: Jumlah pinjaman, dimana bisnisnya berada pada state yang sama dengan Bank pemberi pinjamnannya terlihat tidak berbeda signifikan.
+<img width="860" alt="Stage 2 - Univ_CT_P" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/4a18dca0-ef51-4936-8fb4-e8031606e916">
 
-- CompanyType: Jumlah bisnis yang sudah ada dan berada di perkotaan paling tinggi, diikuti oleh bisnis baru dan ada di perkotaan. Sisanya adalah bisnis yang ada di pedesaan, baik yang sudah ada maupun baru.
+##### CompanyType
+Jumlah bisnis yang sudah ada dan berada di perkotaan paling tinggi, diikuti oleh bisnis baru dan ada di perkotaan. Sisanya adalah bisnis yang ada di pedesaan, baik yang sudah ada maupun baru.
 
-- Prod: Sebagian besar data menunjukkan bahwa jumlah pekerjaan yang diciptakan (CreateJob) lebih besar daripada pekerjaan yang dipertahankan (RetainedJob). Ini bisa mengindikasikan bahwa banyak bisnis yang menerima pinjaman berhasil menciptakan lebih banyak lapangan pekerjaan baru daripada mempertahankan pekerjaan yang ada.
+##### Prod
+Sebagian besar data menunjukkan bahwa jumlah pekerjaan yang diciptakan (CreateJob) lebih besar daripada pekerjaan yang dipertahankan (RetainedJob), karena banyak bisnis yang sedang dalam fase ekspansi dan pertumbuhan. Ketika bisnis berkembang, mereka sering kali perlu menambah tenaga kerja baru untuk mendukung peningkatan produksi, layanan, atau operasional lainnya. Hal ini menyebabkan penciptaan lapangan kerja baru yang signifikan. Sebaliknya, pekerjaan yang dipertahankan biasanya mencerminkan upaya untuk menjaga stabilitas operasional yang sudah ada, dan tidak selalu menunjukkan penambahan tenaga kerja baru. Oleh karena itu, dalam periode pertumbuhan ekonomi atau bisnis yang aktif mengembangkan diri, penciptaan lapangan kerja baru cenderung lebih tinggi dibandingkan dengan upaya mempertahankan pekerjaan yang sudah ada.
 
-### Industri, Bank
+<img width="559" alt="Stage 2 - Univ_R_T_MS" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/0e4b13f3-8aa8-41a8-b0f9-0dac882f5736">
 
-![screen](https://gcdnb.pbrd.co/images/jNqNVG67xLMJ.png?o=1)
+##### Recession
+Pada fitur ini lebih banyak pinjaman terdapat pada tahun-tahun tidak resesi dibanding tahun-tahun resesi.
 
-- Industri: Frekuensi distribusi industri tertinggi di bidang Other Services karena banyak yang nilai awalnya 0 dimasukkan ke kategori ini. Nilai awal 0 menandakan perusahaan tidak diberikan label NAICS, yaitu tipikal pinjaman sebelum NAICS berdiri tahun 1997. Setelah itu, 3 sektor teratas adalah Retail, Manufacturing dan Accomodation & Food Services, mencerminkan pentingnya ketiga industri ini dalam perekonomian. Selanjutnya, sektor construction, healthcare dan social assistance juga menunjukan aktivitas yang signifikan dalam memperoleh pinjaman. Sektor lainnya: Wholesale Trade, Administrative Support, Transportation & Warehousing, dan sektor lainnya menunjukkan aktivitas yang lebih rendah tetapi tetap signifikan.
+##### Term
+Term dikelompokkan menjadi 4 bagian (0-60 bulan, 60-120 bulan, 120-Upper IQR, dan > Upper IQR)
 
-- Bank: Kategori di kolom ini yang paling banyak kuantitasnya adalah Others. Ini karena bank yang hanya muncul < 1500 dimasukkan ke dalam kategori ini dan bank dengan karakteristik seperti ini ternyata banyak. Bank yang paling dipakai untuk meminjam ke SBA adalah Bank of America, Wells Fargo, JP Morgan, US Bank National of Association, dan Citizens Bank National Association.
+##### MIS_Status
+Term dikelompokkan menjadi 4 bagian (0-60 bulan, 60-120 bulan, 120-Upper IQR, dan > Upper IQR). Terlihat bahwa banyak pinjaman pada term antara 5 sampai 10 tahun.
 
-### State, BankState, MIS_Status
+<img width="371" alt="Stage 2 - Univ_Bank" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/557dda74-21e0-41a3-9f2c-1bb87a2a69f8">
 
-![screen](https://gcdnb.pbrd.co/images/pegAF8IVnnPO.png?o=1)
+##### Bank
+Kategori di kolom ini yang paling banyak kuantitasnya adalah Others. Ini karena bank yang hanya muncul < 1500 dimasukkan ke dalam kategori ini dan bank dengan karakteristik seperti ini ternyata banyak. Bank yang paling dipakai untuk meminjam ke SBA adalah Bank of America, Wells Fargo, JP Morgan, US Bank National of Association, dan Citizens Bank National Association.
 
-- State: Dari total 50 state di USA, peminjam paling banyak ada pada state California, Texas, New York, Florida, dan Philadelphia. Untuk fokus implementasi program improvement kepada customer, SBA bisa fokus kepada customer di 5 state ini.
+<img width="370" alt="Stage 2 - Univ_State" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/9a2a14f7-0484-4220-a6f2-86105b43a525">
 
-- BankState: Dari total 50 state di USA, bank peminjam paling banyak ada pada state California, North Carolina, Illinois, Ohio, dan Rhode Island. Untuk fokus implementasi program improvement kepada bank, SBA bisa fokus kepada bank ke 5 state ini.
+##### State
+Dari total 50 state di USA, peminjam paling banyak ada pada state California, Texas, New York, Florida, dan Philadelphia. Untuk fokus implementasi program improvement kepada customer, SBA bisa fokus kepada customer di 5 state ini.
 
-- MIS_Status: Setelah dilakukan class imbalance, persentase rasio CHGOFF dan PIF tidak berubah, yakni masing-masing masih sekitar 18% dan 72% dari total dataset.
+<img width="370" alt="Stage 2 - Univ_BS" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/d6f6c401-ae6e-4f2c-88c6-9b8b1fa13148">
 
-### Barchart with Hue - Low Correlation
+##### BankState
+Dari total 50 state di USA, bank peminjam paling banyak ada pada state California, North Carolina, Illinois, Ohio, dan Rhode Island. Untuk fokus implementasi program improvement kepada bank, SBA bisa fokus kepada bank ke 5 state ini.
 
-![screen](https://gcdnb.pbrd.co/images/oFB5wHcHPHyO.png?o=1)
+<img width="368" alt="Stage 2 - Univ_Industri" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/7f6ef65f-1628-473f-ba5f-22b97fef019e">
 
-Tidak ada perbedaan rasio antara peminjam gagal bayar dengan tidak gagal bayar pada kolom NewExist, FranchiseCode, UrbanRural, CompanyType, Industri, dan RealEstate. Hal ini sejalan dengan korelasi kolom ini yang rendah terhadap kolom MIS_Status. SBA tidak disarankan melihat ke fitur-fitur ini untuk mengecek MIS_Status.
-
-### Barchart with Hue - Intermediate Correlation
-
-![screen](https://i.postimg.cc/9M16r2r4/2024-05-25-20-40-58-Half-Stage-1-PT-Heptad-Data-Collector-Kelompok-4-DS-Batch-43-pptx-Google.png)
-
-Ada perbedaan rasio yang cukup signifikan antara peminjam gagal bayar dengan tidak gagal bayar pada kolom BandIsIn, Recession, dan Prod. Hal ini sejalan dengan korelasi kolom ini yang tinggi terhadap kolom MIS_Status. Begitu juga pada kolom kategorikal LowDoc dan RevLineCr. Maka dari itu SBA bisa melihat ke kriteria-kriteria di mana CHGOFF rendah pada kolom-kolom ini: peminjam melakukan LowDoc yang berarti memiliki kredit skor yang bagus dan income stabil, peminjam memakai bank yang sama dengan state dia berada, peminjam membuka job lebih banyak, tidak memiliki kredit bergulir dan tahun tersebut USA tidak mengalami resesi. 
-
-### Barchart with Hue - Intermediate Correlation
-
-![screen](https://i.postimg.cc/ZR0GBg3V/2024-05-25-20-43-38-Half-Stage-1-PT-Heptad-Data-Collector-Kelompok-4-DS-Batch-43-pptx-Google.png)
-
-Seperti yang sudah diperlihatkan di heatmap, korelasi bank terhadap MIS_Status termasuk yang paling besar. Ada beberapa bank yang bahkan tidak memiliki kadar kredit gagal bayar seperti pada bank SBA - EDF Enforcement Action, Florida Business Development Action, dan CDC Small Business Finance Corporation. Disarankan untuk SBA agar jika ingin menyalurkan pinjaman dengan risiko gagal bayar rendah bisa ke bank bebas CHGOFF atau rendah CHGOFF. 
+##### Industri
+Frekuensi distribusi industri tertinggi di bidang Other Services karena banyak yang nilai awalnya 0 dimasukkan ke kategori ini. Nilai awal 0 menandakan perusahaan tidak diberikan label NAICS, yaitu tipikal pinjaman sebelum NAICS berdiri tahun 1997. Setelah itu, 3 sektor teratas adalah Retail, Manufacturing dan Accomodation & Food Services, mencerminkan pentingnya ketiga industri ini dalam perekonomian. Selanjutnya, sektor construction, healthcare dan social assistance juga menunjukan aktivitas yang signifikan dalam memperoleh pinjaman. Sektor lainnya: Wholesale Trade, Administrative Support, Transportation & Warehousing, dan sektor lainnya menunjukkan aktivitas yang lebih rendah tetapi tetap signifikan.
 
 ### B. Univariate Analysis - Numerical
-### Term, NoEmp, CreateJob, RetainedJob
 
-![screen](https://gcdnb.pbrd.co/images/xPCRHKvVNYCT.png?o=1)
+<img width="445" alt="Stage 2 - Univ_NE_CJ_RJ" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/439c0c3f-e596-413c-b079-8edcb679e692">
 
-- Term: Setelah di-handle outlier dengan metode IQR, limit atas Term berubah menjadi kurang dari 240. Ini tercermin di kolom RealEstate yang menandakan bahwa tidak ada Term di atas 240. Untuk distribusi dari Term sendiri bisa dilihat menyerupai distribusi normal.
+##### NoEmp
+Setelah ditransform dengan robust scaler karena distribusi awal kolom ini positive skew dan di-handle outlier dengan metode Z-score, kolom ini masih memiliki distribusi yang kurang lebih positive skew. Hanya saja ada perubahan limit maksimumnya yang menjadi hanya 29. 
 
-- NoEmp: Setelah ditransform dengan robust scaler karena distribusi awal kolom ini positive skew dan di-handle outlier dengan metode Z-score, kolom ini masih memiliki distribusi yang kurang lebih positive skew. Hanya saja ada perubahan limit maksimumnya yang menjadi hanya 29. Perusahaan peminjam memiliki karyawan yang
+##### CreateJob
+Setelah ditransform dengan robust scaler karena distribusi awal kolom ini positive skew dan di-handle outlier dengan metode Z-score, kolom ini masih memiliki distribusi yang kurang lebih positive skew. Hanya saja ada perubahan limit maksimumnya yang menjadi hanya 600.
 
-- CreateJob: Setelah ditransform dengan robust scaler karena distribusi awal kolom ini positive skew dan di-handle outlier dengan metode Z-score, kolom ini masih memiliki distribusi yang kurang lebih positive skew. Hanya saja ada perubahan limit maksimumnya yang menjadi hanya 600.
+##### RetainedJob
+Setelah ditransform dengan robust scaler karena distribusi awal kolom ini positive skew dan di-handle outlier dengan metode Z-score, kolom ini masih memiliki distribusi yang kurang lebih positive skew. Hanya saja ada perubahan limit maksimumnya yang menjadi hanya 150.
 
-- RetainedJob: Setelah ditransform dengan robust scaler karena distribusi awal kolom ini positive skew dan di-handle outlier dengan metode Z-score, kolom ini masih memiliki distribusi yang kurang lebih positive skew. Hanya saja ada perubahan limit maksimumnya yang menjadi hanya 150.
+### C. Multivariate Analysis - Categorical
 
-### Heatmap
+<img width="604" alt="Stage 2 - Multi_NE_FC" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/b7f465a5-d46c-4259-b0ee-ec3daebfa62d">
+<img width="288" alt="Stage 2 - Multi_UR" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/426b17cc-abc1-47d4-bbfd-8df3d181a946"><img width="286" alt="Stage 2 - Multi_CT" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/303dbaea-2b66-4c6f-a95a-40f25d12819e">
+<img width="288" alt="Stage 2 - Multi_P" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/590454dd-60d5-4317-8f9c-9643a40064b0">
 
-![screen](https://gcdnb.pbrd.co/images/mxG2OwULoStH.png?o=1)
 
-Pada matriks korelasi dapat dilihat bahwa urutan korelasi absolut paling besar dari 14 kolom lain yang bisa dikorelasi (1 kolom, RealEstate tidak bisa dikorelasi) jika diurutkan adalah:
+##### NewExist, FranchiseCode, UrbanRural, CompanyType, Prod
+Tidak ada perbedaan rasio antara peminjam gagal bayar dengan tidak gagal bayar pada kolom NewExist, FranchiseCode, UrbanRural, CompanyType, dan Prod. Dari bar chart terlihat bahwa fitur-fitur ini tidak terlalu signifikan perbedaannya terhadap fitur target MIS_Status, namun masih harus dicek ulang dengan chi-square test apakah secara statistik observasi ini valid.
 
-- Term (0.35)
-- Recession (0.21)
-- BankIsin (0.19)
-- Bank (0.13)
-- Prod (0.11)
-- NAICS (0.10)
-- NoEmp (0.07)
-- Ind_code (0.07)
-- CreateJob (0.02)
-- RetainedJob (0.02)
-- Industri (0.01)
-- NewExist (0)
-- UrbanRural (0)
-- CompanyType (0)
+<img width="289" alt="Stage 2 - Multi_RLC" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/df187d10-af8d-4572-bf19-74e27f0d8e12"> <img width="286" alt="Stage 2 - Multi_BII" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/9fbd1783-856f-485f-a348-0f8a001b5aea">
+<img width="607" alt="Stage 2 - Multi_R_T" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/69de4501-2359-47da-bc9d-3e26228cffc0">
 
-Dengan ini dapat dilihat bahwa 5 faktor teratas yang sangat berkaitan dengan MIS_Status adalah jangka waktu kredit, tahun resesi, apakah letak bank sama dengan letak peminjam, bank dari peminjam, dan apakah pembukaan pekerjaan lebih tinggi dibanding pekerjaan yang di-retain.
+##### RevLineCr, BankIsIn, Recession, Term
+Pada bar chart terlihat perbedaan rasio antara peminjam gagal bayar dengan tidak gagal bayar pada kolom RevLineCr, LowDoc, BankIsIn, Recession, dan Term. Dari bar chart terlihat bahwa fitur-fitur ini lumayan signifikan perbedaannya terhadap fitur target MIS_Status, namun masih harus dicek ulang dengan chi-square test apakah secara statistik observasi ini valid.
 
-### Pairplot
+#### Chi-Square Test
 
-![screen](https://gcdnb.pbrd.co/images/WoakBiD5OFqP.png?o=1)
+<img width="305" alt="Stage 2 - Multi_Chi_Sqr" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/678f324e-71aa-4ff5-9228-0108f7c34ba3">
 
-Pada pairplot untuk kolom numerikal, dapat dilihat bahwa rata-rata korelasi antara kolom numerikal tidak terlalu terlihat signifikan. Scatterplot terlihat random berserak. Untuk distribusi kategori MIS_Status pada kolom Term bisa terlihat bahwa rata-rata pinjaman gagal bayar ada di distribusi rendah, begitu pula dengan NoEmp, CreateJob, dan RetainedJob. SBA bisa mengacu pada grafik ini bahwa untuk menghindari pinjaman dengan risiko tinggi. SBA harus menghindari term yang rendah, peminjam dengan karyawan dan pekerjaan yang sedikit, serta peminjam yang sedikit membuka lapangan pekerjaan baru.
+Karena p-value semua fitur terhadap fitur MIS_Status adalah 0 (kurang dari nilai alpha = 0.05), maka bisa dibilang semua fitur kategorikal yang kami pilih memiliki pengaruh statistik yang signifikan terhadap fitur target MIS_Status
+
+### D. Multivariate Analysis - Numerical
+
+##### Heatmap
+
+<img width="423" alt="Stage 2 - Multi_HM" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/e720fe46-6bf8-4a5c-a35d-59e3c3cdb672">
+
+Pada matriks korelasi dapat dilihat bahwa urutan korelasi absolut paling besar dari 13 kolom lain yang bisa dikorelasi jika diurutkan adalah:
+Recession (0.21)
+BankIsIn (0.20)
+NAICS (0.11)
+RevLineCr (0.11)
+LowDoc (0.08)
+ind_code (0.08)
+NoEmp (0.03)
+FranchiseCode (0.02)
+NewExist (0.02)
+CreateJob (0.01)
+RetainedJob (0.01)
+UrbanRural (0.01)
+Prod (0.01)
+Dengan ini dapat dilihat bahwa 5 faktor teratas yang sangat berkaitan dengan MIS_Status sebelum dilakukan handle outlier dan class imbalance adalah: Recession, BankIsIn, NAICS, RevLineCr, dan LowDoc. Urutan list ini akan berubah jika dilakukan handle outlier dan class imbalance. Pada beberapa kolom numerikal yang akan selanjutnya dilakukan handle outlier seperti NoEmp, CreateJob, dan RetainedJob, akan dilakukan t-test untuk melihat lebih dalam lagi signifikansi perbedaan rata-rata tiap kolom terhadap fitur target MIS_Status. Untuk beberapa kolom yang juga merupakan kategorikal seperti Recession, BankIsIn, NAICS, RevLineCr, LowDoc, FranchiseCode, NewExist, UrbanRural, perbedaan statistik juga sudah sebelumnya dilihat berdasarkan chi-square test.
+
+##### Boxplot
+
+<img width="665" alt="Stage 2 - Multi_BP" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/0fddb95a-21d1-4098-88ad-1f4475990d71">
+
+Pada boxplot di atas dapat dilihat bahwa rata-rata semua distribusi PIF dan CHGOFF pada kolom numerikal NoEmp, CreateJob, dan RetainedJob memiliki skewness yang positif, yakni banyak frekuensi pada jumlah rendah. Outliers pada PIF terlihat lebih banyak dibandingkan outliers pada CHGOFF. Untuk melihat apakah perbedaan distribusi MIS_Status pada ketiga fitur ini signifikan, akan dilakukan uji statistik t-test.
+
+#### T-Test
+
+<img width="255" alt="Stage 2 - Multi_TT" src="https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/79759839/95459758-2376-4c4b-8425-3a839a483cb3">
+
+P-value pada t-test antara fitur MIS_Status dengan fitur-fitur numerik menandakan adanya perbedaan signifikan. Ini berarti rata-rata jumlah karyawan NoEmp, jumlah terbentuknya pekerjaan baru CreateJob, dan jumlah pekerjaan tetap RetainedJob memiliki perbedaan signifikan antara kategori yang kreditnya dibayar lunas P I F dengan kredit yang tidak dibayar lunas CHGOFF. Maka dari itu ke depannya SBA bisa melihat ke fitur-fitur ini untuk membedakan klien yang baik untuk diberikan pinjaman atau tidak.
+
+
+## 5. Pre-Processing - 2nd Section
+
+### D. Feature Encoding
+
+- Pengkategorian Term, dibuat kolom baru RealEstate dengan nilai >= 240 =1, dibawah 240=0
+- NAICS diubah menjadi nama-nama industri setiap kategori -> dilabelin jadi angka numerik
+- MIS_status dilabelin chargeoff = 1, PIF=0
+- Encoding 60 bank dengan count terbanyak
+
+### E. Handle Outlier
+
+Pada kolom numerikal outliers di-handle dengan cara sebagai berikut:
+- Fitur yang sudah di-robust scaler akan menggunakan metode Z Score
+- Term menggunakan metode IQR
+
+### F. Class Imbalance
+
+Class Imbalance pada MIS_Status di-handle dengan oversampling dengan menggunakan metode SMOTE. Setelah itu dilakukan pengecekan terhadap duplikat dan missing values
+

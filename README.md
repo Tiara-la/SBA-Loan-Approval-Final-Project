@@ -306,3 +306,132 @@ Pada kolom numerikal outliers di-handle dengan cara sebagai berikut:
 
 Class Imbalance pada MIS_Status di-handle dengan oversampling dengan menggunakan metode SMOTE. Setelah itu dilakukan pengecekan terhadap duplikat dan missing values
 
+## 6. Modeling
+
+### A. Melakukan Oversampling pada Training Set
+
+Sebelumnya kami telah melakukan percobaan tanpa oversampling namun hasilnya kurang memuaskan jika dibandingkan dengan yang sudah dilakukan oversampling.
+1. Pertama-tama kita perlu untuk memisahkan antara feature dan target terlebih dahulu
+2. Setelah itu, kita akan melakukan oversampling untuk menyeimbangkan target MIS_Status menggunakan metode SMOTE supaya tidak terjadi bias.
+3. Pada kasus kali ini kita akan membagi dataset menjadi training sebanyak 80 persen dan testing sebanyak 20 persen
+
+Berikut ini merupakan hasil akhir setelah dilakukan oversampling:<br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/60963438-0b05-44ca-840d-4c74ef1e0638)
+
+
+### B. Melakukan Transformasi Training Set dengan menggunakan Robust Scaler
+
+Setelah data dilakukan splitting dan resampling selanjutnya kita akan mentransformasi dengan menggunakan robust scaler.
+1. Perlu diingat bahwa kita hanya akan melakukan fit hanya pada dataset train saja, kita tidak perlu untuk melakukannya pada data test, Hal ini dilakukan untuk mencegah terjadinya data leakage.
+2. Setelah melakukan fit pada data train, kita akan mentransform data test agar bentuknya sama seperti train data. Hal ini dilakukan supaya mesin jadi lebih mudah untuk mengenali pola dari transformasi robust scaler yang telah kita lakukan. <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/650e954b-e1e6-4102-ac4a-df1a399deae0)
+
+
+### C. Melakukan Modeling menggunakan algoritma LogisticRegression
+
+1. Menginisialisasi variabel logistic regression dan melakukan fit terhadap training data <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/de05f658-cc15-41e3-a795-fb048b0019af)
+3. Mengujinya menggunakan metrics akurasi dan recall <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/80199837-0613-47a2-8db4-d6d291c31974)
+
+Kesimpulan / Hasil Evaluasi : 
+Berdasarkan hasil evaluasi tersebut kami menggunakan recall sebagai metrics utama, sedangkan metrics yang lain hanya sebagai pembanding. Terutama untuk akurasi hanya kami gunakan untuk melakukan pengecekan apakah model cenderung overfit atau tidak. Setelah mendapatkan hasil tersebut kami mengetahui bahwa jarak antara akurasi training dan test tidak terlalu jauh sehingga kecil kemungkinan untuk terjadi overfit.
+
+### D. Hyperparameter Tuning Logistic Regression
+
+1. Hyperparameter Tuning pada model Logistic Regression <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/d6cbc2ba-8c71-40e9-bba3-50bcf8e666c9)
+2. Menetapkan Parameter terbaik pada model Logistic Regression <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/a5f1a171-6d37-452e-92af-52048b42b21b)
+
+Kesimpulan / Hasil Evaluasi : 
+Setelah melakukan hyperparameter tuning, terdapat penurunan spesifik pada recall, maka kami memutuskan untuk menggunakan model awal (parameter default) karena memiliki nilai recall yang tinggi.
+
+### E. Melakukan Modeling menggunakan algoritma Decision Tree
+
+Selanjutnya kami akan mencoba melakukan pemodelan menggunakan DecisionTree, karena algoritma ini cukup umum dan populer digunakan pada bidang masalah klasifikasi.
+
+1. Menginisialisasi variabel Decision Tree dan melakukan fit terhadap training data <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/53109bad-6a2f-432f-94e1-b3531c66749f)
+2. Mengujinya menggunakan metrics akurasi dan recall <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/da9f62e5-7507-4a0f-96b6-b33c089f20b3)
+
+Kesimpulan / Hasil Evaluasi : 
+Model tersebut memiliki kecenderungan yang besar untuk overfit sehingga kami memutuskan untuk tidak menggunakan model Decision Tree tersebut. Hal ini dikarenakan algoritma Decision tree memiliki sifat untuk melakukan partitioning ruang fitur secara rekursif sehingga lebih mudah untuk overfit.
+
+### F. Melakukan Modeling menggunakan algoritma Random Forest
+
+Terakhir, kami akan mencoba untuk menggunakan algoritma Random Forest, karena model ini dikenal sebagai model yang sangat fleksibel dan memiliki performa yang bagus khususnya pada studi kasus klasifikasi seperti yang sedang kami lakukan.
+
+1. Menginisialisasi variabel Random Forest dan melakukan fit terhadap training data. <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/19b6dd63-2368-47ff-a61a-5c81eeae9316)
+2. Mengujinya menggunakan metrics akurasi dan recall. <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/cdeb4f6f-2d3c-401e-a943-b0566d71623b)
+
+Kesimpulan / Hasil Evaluasi : 
+Model tersebut memiliki kecenderungan yang besar untuk overfit sehingga kami akan melakukan treatment dengan memasukkan parameter tambahan seperti kedalaman tree, dan min sample split untuk melihat hasil apakah model masih mengalami overfit atau tidak.
+
+### G. Hyperparameter Tuning Random Forest 
+
+1. Mengatasi overfit RandomForest tersebut dengan memasukkan parameter tertentu untuk mengatur agar model bisa memberikan performa yang lebih baik. <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/fd35442e-1a26-4aea-b672-5986e483704f)
+3. Setelah sebelumnya model random forest terjadi overfit, kali ini kami akan memasukkan max depth = 6, dan min sample split = 100 untuk menurunkan kecenderungan overfitting. <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/612a523e-5093-4ab4-9296-dfecd19b2c23)
+
+Kesimpulan / Hasil Evaluasi : Setelah dilakukan treatment, model terbaru menghasilkan akurasi yang tak jauh berbeda antara training dengan testing. yang mana kecenderungan untuk overfitting sangat kecil untuk terjadi. akan tetapi model ini memiliki nilai recall yang rendah, sehingga besar kemungkinan akan dipilih model yang memiliki jumlah recall lebih besar.
+
+### H. Komparasi Antara Model
+
+1. Model terbaik jatuh kepada Logistic Regression, karena memiliki nilai recall tertinggi dibandingkan dengan yang lain, dan yang paling penting tidak terjadi overfit pada model tersebut.
+2. Model kedua terbaik jatuh kepada Random Forest, karena memiliki nilai recall kedua dibandingkan dengan Decision Tree, meskipun model ini memiliki nilai akurasi yang tinggi jika dibandingkan dengan Logistic Regression kami tetap memilih Logistic Regression karena memiliki nilai recall yang jauh lebih tinggi.
+3. Model Decision Tree menempati peringkat terakhir, karena memiliki kecenderungan overfit yang tinggi berdasarkan sifat model itu sendiri. <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/f21bf3a1-fb5c-41f3-9658-b5c49e0b8bce)
+
+### I. Meningkatkan Nilai Recall Model Logistic Regression
+
+1. Jika kita ingin meningkatkan lebih jauh lagi recall score, kita bisa menetapkan thresholds dengan nilai tertentu untuk menaikannya. Dengan menurunkan thresholds, maka akan menaikkan Recall dan menurunkan Precision. Jika stakeholder ingin lebih selektif lagi dalam menangani kerugian chargeoff hal ini bisa diterapkan. <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/1b723340-447d-402b-9158-91077f1036b2)
+
+2. Langkah selanjutnya, jika sudah diketahui nilai thresholds. Kita bisa melakukan prediksi menggunakan nilai tersebut untuk menaikkan recall. target recall untuk saat ini adalah 85%, yang artinya kita akan menurunkan thresholds mencapai angka 0.3. <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/7715f3e6-ac88-4f7b-8ac5-4bd7e7fd47fc) <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/ea79ee3a-ccdd-4e59-91df-4a65b7bc48ce)
+
+Kesimpulan / Hasil Evaluasi : Kita telah berhasil menaikkan recall hingga sebanyak 85%, hal ini juga terdapat trade-off atau pertukaran yang harus dibayar, yaitu jika kita mengecilkan nilai threshold untuk menaikkan recall, maka nilai precision juga akan turun. Yang mana precision tersebut akan berhubungan dengan orang-orang yang sebenarnya bisa bayar, namun diprediksi tidak bisa bayar. Kita akan sedikit kehilangan potensi untuk meminjamkan uang kepada mereka.
+
+## 7. Feature Importances
+
+1. Fitur "Term": Fitur ini memiliki tingkat kepentingan tertinggi, menunjukkan bahwa durasi (term) dari suatu pinjaman adalah faktor yang paling signifikan dalam model ini. Ini mungkin berarti bahwa lamanya waktu pinjaman atau proyek sangat mempengaruhi hasil yang diprediksi oleh model.
+2. Fitur "Recesion": Adanya resesi merupakan fitur terpenting kedua. Hal ini menunjukkan bahwa kemerosotan ekonomi mempunyai dampak besar terhadap hasil prediksi.
+3. Fitur "BankISln": Merupakan fitur yang menandakan peminjam dan bank berada pada suatu wilayah atau state yang sama
+4. Fitur "Lowdoc dan RevLineCr": Menunjukkan bahwa persyaratan dokumentasi atau adanya proses dokumentasi minim (LowDoc) memainkan peran penting dalam model.
+5.Fitur lain: Fitur-fitur seperti "UrbanRural", "FranchiseCode", "BankState", "State", "Bank", dan lainnya memiliki tingkat kepentingan yang lebih rendah tetapi masih memberikan kontribusi terhadap model. <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/1b5db7a7-6dba-4ada-8fa0-ec6b524f58a7)
+
+## 8. Insight dan Business Recommendation <br>
+![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/12e9b939-3db4-43a8-a36d-1d511a34919f)
+
+Dapat dilihat dengan model yang telah dibuat:
+
+- TP(87714) = Model sukses memprediksi positif (ChgOff) dan kenyataanya benar ChgOff
+- TN(26575) = Model sukses memprediksi negatif (Tidak ChgOff) dan kenyataannya benar tidak ChgOff
+- FP(58297) = Model memprediksi positif (ChgOff) tapi kenyataannya tidak ChgOff
+- FN(4662) = Model memprediksi negatif (Tidak ChgOff) tapi kenyataannya ChgOff
+
+### A. Kesimpulan Bisnis pada Confusion Matrix
+
+- Mengacu pada business metrics kami pada awal project yaitu tentang Loan Default Rate, Sebelum dilakukan modeling kita memeiliki persentase gagal bayar sebanyak 17,61% yang mana sangat tinggi, Hampir mencapai 18%.
+- Setelah dilakukannya modeling, terjadi penurunan yang cukup masif pada persentase chargeoff, yaitu sekitar 2.63%. Penurunan ini sangatlah besar sehingga besar kemungkinan untuk menurunkan kerugian meminjamkan uang kepada orang yang tidak bisa membayar.
+- Kerugian sebelum menggunakan model adalah sebanyak 185.000.000 USD, namun setelah menggunakan model hanya terdapat 2.63% prediksi saja yang salah. yang mana angka ini akan menjadi 27.650.000 USD.
+- Kerugian ini turun sebanyak 157.350.000 USD, yang mana turun 85% dari total kerugian.
+- Berdasarkan penjabaran diatas, kami telah berhasil untuk memenuhi objektif awal dari business metrics, yaitu untuk mengurangi nilai kerugian awal dan mengurangi persentase peminjam yang default.
+- Angka 185.000.000 USD diperoleh dari penjumlahan kolom ChgOffPrinGr pada dataset.
+
+### B. Rekomendasi Bisnis Akhir
+
+Jadi, dari semua uraian diatas kami menemukan kesimpulan berupa rekomendasi bisnis sebagai berikut:
+
+- Mengembangkan Layanan Pinjaman Jangka Panjang. Dengan cara, Bank dapat menawarkan produk pinjaman dengan durasi yang lebih lama dengan suku bunga yang bersaing. karena rata-rata charge off terjadi pada peminjaman dengan jangka waktu yang pendek yaitu 0 sampai 60.
+- Menyeleksi lebih ketat untuk industri yang memiliki persentasi gagal bayar yang tinggi seperti industri Real estate dan Finance Insurance, hal ini bisa diterapkan dengan tidak menetapkan sistem lowdoc khusus pada 2 industri tersebut.
+- Fokus pemberian jaminan pinjaman pada sektor Pertambangan dan Perminyakan karena persentase gagal bayar rendah. Dapat diberikan jalur khusus pada sektor tersebut untuk mendorong jumlah pengajuan jaminan pinjaman.
+- Penting bagi para pemberi pinjaman untuk lebih berhati-hati dalam mengambil keputusan untuk meminjamkan uang jika sedang terjadi krisis ekonomi pada daerah / tempat yang bersangkutan.
+- Melihat korelasi BankIsIn yang tinggi, SBA bisa mencoba mengalokasikan pinjaman ke klien dari bank dengan state yang sama dengan klien.

@@ -327,7 +327,7 @@ Setelah data dilakukan splitting dan resampling selanjutnya kita akan mentransfo
 ![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/650e954b-e1e6-4102-ac4a-df1a399deae0)
 
 
-### C. Melakukan Modeling menggunakan algoritma LogisticRegression
+### C. Melakukan Modeling menggunakan Algoritma Logistic Regression
 
 1. Menginisialisasi variabel logistic regression dan melakukan fit terhadap training data <br>
 ![image](https://github.com/heptaddc/SBA-Loan-Approval-Final-Project/assets/170295485/de05f658-cc15-41e3-a795-fb048b0019af)
@@ -347,7 +347,7 @@ Berdasarkan hasil evaluasi tersebut kami menggunakan recall sebagai metrics utam
 Kesimpulan / Hasil Evaluasi : 
 Setelah melakukan hyperparameter tuning, terdapat penurunan spesifik pada recall, maka kami memutuskan untuk menggunakan model awal (parameter default) karena memiliki nilai recall yang tinggi.
 
-### E. Melakukan Modeling menggunakan algoritma Decision Tree
+### E. Melakukan Modeling menggunakan Algoritma Decision Tree
 
 Selanjutnya kami akan mencoba melakukan pemodelan menggunakan DecisionTree, karena algoritma ini cukup umum dan populer digunakan pada bidang masalah klasifikasi.
 
@@ -359,7 +359,7 @@ Selanjutnya kami akan mencoba melakukan pemodelan menggunakan DecisionTree, kare
 Kesimpulan / Hasil Evaluasi : 
 Model tersebut memiliki kecenderungan yang besar untuk overfit sehingga kami memutuskan untuk tidak menggunakan model Decision Tree tersebut. Hal ini dikarenakan algoritma Decision tree memiliki sifat untuk melakukan partitioning ruang fitur secara rekursif sehingga lebih mudah untuk overfit.
 
-### F. Melakukan Modeling menggunakan algoritma Random Forest
+### F. Melakukan Modeling menggunakan Algoritma Random Forest
 
 Terakhir, kami akan mencoba untuk menggunakan algoritma Random Forest, karena model ini dikenal sebagai model yang sangat fleksibel dan memiliki performa yang bagus khususnya pada studi kasus klasifikasi seperti yang sedang kami lakukan.
 
@@ -380,7 +380,7 @@ Model tersebut memiliki kecenderungan yang besar untuk overfit sehingga kami aka
 
 Kesimpulan / Hasil Evaluasi : Setelah dilakukan treatment, model terbaru menghasilkan akurasi yang tak jauh berbeda antara training dengan testing. yang mana kecenderungan untuk overfitting sangat kecil untuk terjadi. akan tetapi model ini memiliki nilai recall yang rendah, sehingga besar kemungkinan akan dipilih model yang memiliki jumlah recall lebih besar.
 
-### H. Komparasi Antara Model
+### H. Komparasi Antar Model
 
 1. Model terbaik jatuh kepada Logistic Regression, karena memiliki nilai recall tertinggi dibandingkan dengan yang lain, dan yang paling penting tidak terjadi overfit pada model tersebut.
 2. Model kedua terbaik jatuh kepada Random Forest, karena memiliki nilai recall kedua dibandingkan dengan Decision Tree, meskipun model ini memiliki nilai akurasi yang tinggi jika dibandingkan dengan Logistic Regression kami tetap memilih Logistic Regression karena memiliki nilai recall yang jauh lebih tinggi.
